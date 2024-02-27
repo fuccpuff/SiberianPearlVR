@@ -71,9 +71,17 @@ public class ScoreManager : MonoBehaviour
 
     private void UpdateAccuracy()
     {
-        float accuracy = (totalHits / (float)totalShots) * 100;
-        Debug.Log($"Выстрелов: {totalShots}, Попаданий: {totalHits}, Очков: {totalScore}, Точность: {accuracy:F2}%");
+        if (totalShots > 0) // Добавляем проверку, чтобы избежать деления на ноль
+        {
+            float accuracy = (totalHits / (float)totalShots) * 100;
+            Debug.Log($"Выстрелов: {totalShots}, Попаданий: {totalHits}, Очков: {totalScore}, Точность: {accuracy:F2}%");
+        }
+        else
+        {
+            Debug.Log($"Выстрелов: {totalShots}, Попаданий: {totalHits}, Очков: {totalScore}, Точность: N/A");
+        }
     }
+
 
     public int GetTotalScore() => totalScore;
 

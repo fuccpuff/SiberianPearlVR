@@ -4,12 +4,12 @@ public class TargetBehavior : MonoBehaviour
 {
     public int points = 10; // Очки, начисляемые за попадание в эту мишень
 
-    private void OnTriggerEnter(Collider other)
+    public void RegisterHit()
     {
-        if (other.CompareTag("Bullet"))
-        {
-            ScoreManager.Instance.RegisterHit(points); // Добавляем очки за попадание
-            gameObject.SetActive(false);
-        }
+        // Добавляем очки за попадание
+        ScoreManager.Instance.RegisterHit(points);
+        // Дополнительные действия при попадании, например, анимация или звук
+        gameObject.SetActive(false); // Деактивируем цель
     }
+
 }
