@@ -22,6 +22,16 @@ public class BulletBehavior : MonoBehaviour
         ReturnToPool();
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        // Вывод в консоль имени объекта, с которым произошло столкновение
+        Debug.Log($"Bullet hit: {collision.gameObject.name}");
+
+        // Деактивация пули или другая логика по обработке столкновения
+        gameObject.SetActive(false);
+    }
+
+
     private void PlayHitSound()
     {
         // Воспроизведение звука попадания
