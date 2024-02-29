@@ -2,14 +2,21 @@ using UnityEngine;
 
 public class TargetBehavior : MonoBehaviour
 {
-    public int points = 10; // Очки, начисляемые за попадание в эту мишень
+    public int points = 10;
+   // private Animator animator;
+
+    void Awake()
+    {
+  //      animator = GetComponent<Animator>();
+    }
 
     public void RegisterHit()
     {
-        // Добавляем очки за попадание
         ScoreManager.Instance.RegisterHit(points);
-        // Дополнительные действия при попадании, например, анимация или звук
-        gameObject.SetActive(false); // Деактивируем цель
+        Destroy(gameObject);
+        //if (animator != null)
+        //{
+        //    animator.SetTrigger("close");
+        //}
     }
-
 }

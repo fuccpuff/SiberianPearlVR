@@ -8,7 +8,8 @@ public class SessionAnalytics : MonoBehaviour
 
     public void RecordSession()
     {
-        sessionScores.Add(ScoreManager.Instance.GetTotalScore());
+        // Используем свойство TotalScore вместо метода GetTotalScore()
+        sessionScores.Add(ScoreManager.Instance.TotalScore);
         sessionAccuracies.Add(ScoreManager.Instance.GetAccuracy());
     }
 
@@ -16,7 +17,7 @@ public class SessionAnalytics : MonoBehaviour
     {
         for (int i = 0; i < sessionScores.Count; i++)
         {
-            Debug.Log($"Сессия {i + 1}: Очки - {sessionScores[i]}, Точность - {sessionAccuracies[i]}%");
+            Debug.Log($"Сессия {i + 1}: Очки - {sessionScores[i]}, Точность - {sessionAccuracies[i]:F2}%");
         }
     }
 }

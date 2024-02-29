@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
@@ -14,6 +15,9 @@ public class ScoreManager : MonoBehaviour
     private int hitsDuringChallenge = 0;
     private int challengeTargetHits = 5;
     private float challengeTime = 10f;
+
+    // Определение события изменения счета
+    public static event Action OnScoreChanged;
 
     void Awake()
     {
@@ -38,6 +42,7 @@ public class ScoreManager : MonoBehaviour
             currentStreak = 0;
             comboMultiplier = 1;
         }
+        OnScoreChanged?.Invoke(); // Вызов события при изменении счета
     }
 
     public void RegisterHit(int points)
@@ -50,6 +55,7 @@ public class ScoreManager : MonoBehaviour
 
         if (isChallengeActive) hitsDuringChallenge++;
 
+        OnScoreChanged?.Invoke(); // Вызов события при изменении счета
         UpdateAccuracy();
     }
 
@@ -69,26 +75,20 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    private void UpdateAccuracy()
-    {
-        if (totalShots > 0) // Добавляем проверку, чтобы избежать деления на ноль
-        {
-            float accuracy = (totalHits / (float)totalShots) * 100;
-            Debug.Log($"Выстрелов: {totalShots}, Попаданий: {totalHits}, Очков: {totalScore}, Точность: {accuracy:F2}%");
-        }
-        else
-        {
-            Debug.Log($"Выстрелов: {totalShots}, Попаданий: {totalHits}, Очков: {totalScore}, Точность: N/A");
-        }
-    }
+    public int TotalShots => totalShots;
+    public int TotalHits => totalHits;
+    public int TotalScore => totalScore;
 
-
-    public int GetTotalScore() => totalScore;
-
-    public float GetAccuracy() => (totalHits / (float)totalShots) * 100;
+    public float GetAccuracy() => totalShots > 0 ? (totalHits / (float)totalShots) * 100 : 0;
 
     public void AddScore(int score)
     {
         totalScore += score;
+        OnScoreChanged?.Invoke(); // Вызов события при изменении счета
+    }
+
+    private void UpdateAccuracy()
+    {
+        // Логика обновления точности теперь встроена в другие методы
     }
 }
