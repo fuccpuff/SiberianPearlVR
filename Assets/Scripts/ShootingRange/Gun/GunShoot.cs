@@ -17,6 +17,7 @@ public class GunShoot : MonoBehaviour
     private InputDeviceCharacteristics rightHandCharacteristics =
         InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
 
+    public bool isWeaponHeld = false;
     private bool isTriggerDown = false;
     private float triggerDownTime = 0f;
     private float longPressDuration = 2.0f;
@@ -45,12 +46,13 @@ public class GunShoot : MonoBehaviour
         if (device.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue))
         {
             HandleTriggerInput(triggerValue);
+            isWeaponHeld = true;
         }
     }
 
     private void HandleTriggerInput(float triggerValue)
     {
-        if (triggerValue > 0.1f && !isTriggerDown)
+        if (isWeaponHeld && triggerValue > 0.1f && !isTriggerDown)
         {
             isTriggerDown = true;
             triggerDownTime = Time.time;
@@ -69,37 +71,9 @@ public class GunShoot : MonoBehaviour
         }
     }
 
-    //public void Shoot()
-    //{
-    //    if (ammoManager.CanShoot() && !isShooting && Time.time - lastShotTime >= timeBetweenShots)
-    //    {
-    //        isShooting = true;
-    //        GameObject bullet = BulletPool.SharedInstance.GetPooledBullet();
-    //        lastShotTime = Time.time;
-    //        if (bullet != null)
-    //        {
-    //            bullet.transform.position = bulletSpawnPoint.position;
-    //            bullet.transform.rotation = bulletSpawnPoint.rotation;
-    //            bullet.SetActive(true);
-    //            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-    //            rb.velocity = bulletSpeed * bulletSpawnPoint.forward;
-    //            ammoManager.UseAmmo();
-    //            soundManager.PlayShootSound();
-    //            animationManager.PlayShootAnimation();
-    //            StartCoroutine(ResetShooting());
-    //        }
-    //    }
-    //    else if (ammoManager.CanShoot() == false && !isShooting && !isEmptyMagazineSoundPlayed)
-    //    {
-    //        soundManager.PlayEmptyMagazineSound();
-    //        Debug.Log("Magazine empty");
-    //        isEmptyMagazineSoundPlayed = true;
-    //    }
-    //}
-
     public void Shoot()
     {
-        if (ammoManager.CanShoot() && !isShooting && Time.time - lastShotTime >= timeBetweenShots)
+        if (isWeaponHeld && ammoManager.CanShoot() && !isShooting && Time.time - lastShotTime >= timeBetweenShots)
         {
             isShooting = true;
             lastShotTime = Time.time;
@@ -124,7 +98,6 @@ public class GunShoot : MonoBehaviour
                     bullet.SetActive(true);
                     Rigidbody rb = bullet.GetComponent<Rigidbody>();
                     rb.velocity = bulletSpeed * bulletSpawnPoint.forward;
-                    // Дополнительно можно добавить анимацию полета пули
                 }
             }
 
@@ -148,7 +121,6 @@ public class GunShoot : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         isShooting = false;
-        // Не сбрасываем isEmptyMagazineSoundPlayed здесь, чтобы звук мог воспроизводиться при каждой попытке стрельбы без патронов
     }
 
     public void ResetEmptyMagazineSoundPlayed()
