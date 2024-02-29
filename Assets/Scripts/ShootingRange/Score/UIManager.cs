@@ -7,29 +7,57 @@ public class UIManager : MonoBehaviour
     public TMP_Text hitsText;
     public TMP_Text scoreText;
     public TMP_Text accuracyText;
+    public TMP_Text streakText;
 
-    private void OnEnable()
-    {
-        ScoreManager.OnScoreChanged += UpdateUI; // Подписка на событие изменения счета
-    }
-
-    private void OnDisable()
-    {
-        ScoreManager.OnScoreChanged -= UpdateUI; // Отписка от события
-    }
+    private ScoreManager scoreManager;
 
     private void Start()
     {
-        UpdateUI(); // Инициализационное обновление UI
+        scoreManager = ScoreManager.Instance;
+        if (scoreManager == null) Debug.LogError("ScoreManager is not initialized!");
+
+        ScoreManager.OnScoreChanged += UpdateUI;
+        UpdateUI();
+    }
+
+    private void OnDestroy()
+    {
+        ScoreManager.OnScoreChanged -= UpdateUI;
     }
 
     private void UpdateUI()
     {
-        if (ScoreManager.Instance == null) return;
+        if (scoreManager == null) return;
 
-        shotsText.text = $"Выстрелов: {ScoreManager.Instance.TotalShots}";
-        hitsText.text = $"Попаданий: {ScoreManager.Instance.TotalHits}";
-        scoreText.text = $"Очков: {ScoreManager.Instance.TotalScore}";
-        accuracyText.text = $"Точность: {ScoreManager.Instance.GetAccuracy():F2}%";
+        UpdateShotsText();
+        UpdateHitsText();
+        UpdateScoreText();
+        UpdateAccuracyText();
+        UpdateStreakText();
+    }
+
+    private void UpdateShotsText()
+    {
+        if (shotsText != null) shotsText.text = $"Выстрелов: {scoreManager.TotalShots}";
+    }
+
+    private void UpdateHitsText()
+    {
+        if (hitsText != null) hitsText.text = $"Попаданий: {scoreManager.TotalHits}";
+    }
+
+    private void UpdateScoreText()
+    {
+        if (scoreText != null) scoreText.text = $"Очков: {scoreManager.TotalScore}";
+    }
+
+    private void UpdateAccuracyText()
+    {
+        if (accuracyText != null) accuracyText.text = $"Точность: {scoreManager.GetAccuracy():F2}%";
+    }
+
+    private void UpdateStreakText() 
+    {
+        if (streakText != null) streakText.text = $"Серия: {scoreManager.LongestStreak}";
     }
 }

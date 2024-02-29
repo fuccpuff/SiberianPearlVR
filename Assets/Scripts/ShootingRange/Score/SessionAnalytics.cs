@@ -6,11 +6,23 @@ public class SessionAnalytics : MonoBehaviour
     private List<int> sessionScores = new List<int>();
     private List<float> sessionAccuracies = new List<float>();
 
+    void Start()
+    {
+        ScoreManager.OnScoreChanged += RecordSession;
+    }
+
+    void OnDestroy()
+    {
+        ScoreManager.OnScoreChanged -= RecordSession;
+    }
+
     public void RecordSession()
     {
-        // Используем свойство TotalScore вместо метода GetTotalScore()
-        sessionScores.Add(ScoreManager.Instance.TotalScore);
-        sessionAccuracies.Add(ScoreManager.Instance.GetAccuracy());
+        if (ScoreManager.Instance != null)
+        {
+            sessionScores.Add(ScoreManager.Instance.TotalScore);
+            sessionAccuracies.Add(ScoreManager.Instance.GetAccuracy());
+        }
     }
 
     public void DisplaySessionHistory()
