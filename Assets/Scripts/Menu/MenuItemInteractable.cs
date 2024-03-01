@@ -7,25 +7,42 @@ public class MenuItemInteractable : MonoBehaviour
 
     protected virtual void OnEnable()
     {
+        // getting the XRBaseInteractable component from the game object
         interactable = GetComponent<XRBaseInteractable>();
-        interactable.selectEntered.AddListener(OnSelectEntered);
+        if (interactable != null)
+        {
+            // if it's not null, i add the listener for select entered
+            interactable.selectEntered.AddListener(OnSelectEntered);
+        }
+        else
+        {
+            // log an error if the XRBaseInteractable component isn't found
+            Debug.LogError("XRBaseInteractable component not found.", this);
+        }
     }
 
     protected virtual void OnDisable()
     {
-        interactable.selectEntered.RemoveListener(OnSelectEntered);
+        // removing the listener when the object is disabled, but first checking if interactable is not null
+        if (interactable != null)
+        {
+            interactable.selectEntered.RemoveListener(OnSelectEntered);
+        }
     }
 
     private void OnSelectEntered(SelectEnterEventArgs args)
     {
+        // trying to get the IMenuItem component from the game object
         var menuItem = GetComponent<IMenuItem>();
         if (menuItem != null)
         {
+            // if i find it, i activate the menu item
             menuItem.Activate();
         }
         else
         {
-            Debug.LogWarning("Component IMenuItem not find.", this);
+            // warning if the IMenuItem component isn't found
+            Debug.LogWarning("IMenuItem component not found.", this);
         }
     }
 }
