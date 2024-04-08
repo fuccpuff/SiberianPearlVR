@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 66c39175d6f149b40ae636611ccc63d1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - snowSound: {fileID: 8300000, guid: c8fa438d69692b74395aa30b68658327, type: 3}
+  - windSound: {fileID: 8300000, guid: 349c6c4840c8eea41bb124e8fc94fd0f, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
