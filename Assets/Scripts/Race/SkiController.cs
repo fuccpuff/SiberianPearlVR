@@ -10,10 +10,14 @@ public class SkiController : MonoBehaviour
     private SnowEffectManager snowEffectManager;
     private CharacterController characterController;
 
+    public SkiController(IInputHandler inputHandler, IMovementCalculator movementCalculator)
+    {
+        this.inputHandler = inputHandler;
+        this.movementCalculator = movementCalculator;
+    }
+
     void Awake()
     {
-        inputHandler = new VRInputHandler();
-        movementCalculator = new SkiMovementCalculator();
         audioManager = GetComponent<SkiAudioManager>();
         snowEffectManager = GetComponent<SnowEffectManager>();
         characterController = GetComponent<CharacterController>();

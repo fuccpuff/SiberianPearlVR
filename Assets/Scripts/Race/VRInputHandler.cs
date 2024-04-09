@@ -31,7 +31,7 @@ public class VRInputHandler : IInputHandler
 
     public Vector3 GetPushDirection()
     {
-        return Vector3.forward;
+        return (lastRightHandPosition - lastLeftHandPosition).normalized;
     }
 
     private bool IsPushMovement(Vector3 handMovement, Vector3 handPosition)
@@ -42,13 +42,7 @@ public class VRInputHandler : IInputHandler
         Vector3 normalizedMovement = handMovement.normalized;
         float movementDirection = Vector3.Dot(normalizedMovement, Vector3.down + Vector3.back);
 
-        bool isPushing = movementDirection > pushDirectionThreshold;
-        if (isPushing)
-        {
-            Debug.Log($"Push detected with direction: {normalizedMovement}, magnitude: {movementMagnitude}");
-        }
-
-        return isPushing;
+        return movementDirection > pushDirectionThreshold;
     }
 
     private Vector3 GetHandPosition(XRNode handNode)
