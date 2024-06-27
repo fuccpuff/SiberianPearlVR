@@ -1,9 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
-
-using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-using TMPro;
  
 public class ski : MonoBehaviour
 {
