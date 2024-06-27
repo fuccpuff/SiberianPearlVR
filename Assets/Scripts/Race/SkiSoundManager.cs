@@ -1,36 +1,36 @@
 using UnityEngine;
 
 /// <summary>
-/// Управляет звуком ветра в зависимости от скорости.
+/// manages the wind sound based on the player's speed.
 /// </summary>
 public class SkiSoundManager : MonoBehaviour
 {
-    public AudioSource windSound; // звук ветра
+    public AudioSource windSound; // wind sound
 
-    private SpeedController speedController; // ссылка на компонент SpeedController
+    private SpeedController speedController; // reference to the SpeedController component
 
     void Awake()
     {
-        speedController = GetComponent<SpeedController>(); // инициализирую компонент SpeedController
+        speedController = GetComponent<SpeedController>(); // initialize the SpeedController component
     }
 
     public void Update()
     {
-        float speed = speedController.Speed; // получаю текущую скорость
-        AdjustWindSound(speed); // корректирую звук ветра
+        float speed = speedController.Speed; // get the current speed
+        AdjustWindSound(speed); // adjust the wind sound
     }
 
     private void AdjustWindSound(float speed)
     {
-        float targetVolume = Mathf.Clamp01(speed / speedController.maxSpeed); // устанавливаю громкость звука ветра в зависимости от скорости
-        if (!windSound.isPlaying && targetVolume > 0) // если звук не проигрывается, но должен
+        float targetVolume = Mathf.Clamp01(speed / speedController.maxSpeed); // set the wind sound volume based on speed
+        if (!windSound.isPlaying && targetVolume > 0) // if the sound is not playing but should be
         {
-            windSound.Play(); // запускаю звук
+            windSound.Play(); // play the sound
         }
-        else if (windSound.isPlaying && targetVolume == 0) // если звук проигрывается, но не должен
+        else if (windSound.isPlaying && targetVolume == 0) // if the sound is playing but should not be
         {
-            windSound.Stop(); // останавливаю звук
+            windSound.Stop(); // stop the sound
         }
-        windSound.volume = targetVolume; // устанавливаю громкость
+        windSound.volume = targetVolume; // set the volume
     }
 }

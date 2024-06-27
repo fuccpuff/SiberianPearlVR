@@ -1,75 +1,75 @@
 using UnityEngine;
 
 /// <summary>
-/// Управляет скоростью игрока, включая ускорение и замедление.
+/// controls the player's speed, including acceleration and deceleration.
 /// </summary>
 public class SpeedController : MonoBehaviour
 {
-    [Tooltip("Максимальная скорость, которую может достичь игрок.")]
-    public float maxSpeed = 20f; // максимальная скорость игрока
+    [Tooltip("the maximum speed the player can reach.")]
+    public float maxSpeed = 20f; // the player's maximum speed
 
-    [Tooltip("Скорость ускорения при толчке.")]
-    public float acceleration = 0.2f; // скорость ускорения при толчке
+    [Tooltip("acceleration rate when pushing.")]
+    public float acceleration = 0.2f; // acceleration rate when pushing
 
-    [Tooltip("Скорость замедления, когда игрок не толкается.")]
-    public float noPushDeceleration = 0.02f; // скорость замедления без толчка
+    [Tooltip("deceleration rate when the player is not pushing.")]
+    public float noPushDeceleration = 0.02f; // deceleration rate when not pushing
 
-    [Tooltip("Минимальное расстояние движения контроллера для учета толчка.")]
-    public float minPushDistance = 0.01f; // минимальное расстояние движения контроллера для учета толчка
+    [Tooltip("minimum controller movement distance to count as a push.")]
+    public float minPushDistance = 0.01f; // minimum controller movement distance to count as a push
 
-    private float speed = 0f; // текущая скорость игрока
-    private float lastPushTime; // время последнего толчка
-
-    /// <summary>
-    /// Возвращает текущую скорость.
-    /// </summary>
-    public float Speed => speed; // возвращаю текущую скорость
+    private float speed = 0f; // current player speed
+    private float lastPushTime; // time of the last push
 
     /// <summary>
-    /// Обновляет скорость игрока на основе мощности толчка и статуса толчка.
+    /// returns the current speed.
     /// </summary>
-    /// <param name="pushPower">Рассчитанная мощность толчка.</param>
-    /// <param name="isPushing">Указывает, толкается ли игрок в данный момент.</param>
+    public float Speed => speed; // return the current speed
+
+    /// <summary>
+    /// updates the player's speed based on push power and push status.
+    /// </summary>
+    /// <param name="pushPower">calculated push power.</param>
+    /// <param name="isPushing">indicates whether the player is currently pushing.</param>
     public void UpdateSpeed(float pushPower, bool isPushing)
     {
-        if (isPushing) // если игрок толкается
+        if (isPushing) // if the player is pushing
         {
-            speed += pushPower * Time.deltaTime; // увеличиваю скорость на величину толчка, учитывая дельту времени
-            lastPushTime = Time.time; // обновляю время последнего толчка
+            speed += pushPower * Time.deltaTime; // increase speed by the push power, considering delta time
+            lastPushTime = Time.time; // update the time of the last push
         }
-        else // если игрок не толкается
+        else // if the player is not pushing
         {
-            speed = Mathf.Max(speed - noPushDeceleration * Time.deltaTime, 0); // уменьшаю скорость с учетом замедления
+            speed = Mathf.Max(speed - noPushDeceleration * Time.deltaTime, 0); // decrease speed considering deceleration
         }
 
-        speed = Mathf.Clamp(speed, 0, maxSpeed); // ограничиваю скорость в диапазоне от 0 до maxSpeed
+        speed = Mathf.Clamp(speed, 0, maxSpeed); // clamp speed between 0 and maxSpeed
     }
 
     /// <summary>
-    /// Применяет движение на основе текущей скорости.
+    /// applies movement based on the current speed.
     /// </summary>
-    /// <param name="transform">Трансформ объекта игрока.</param>
+    /// <param name="transform">the transform of the player object.</param>
     public void ApplyMovement(Transform transform)
     {
-        Vector3 direction = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized; // вычисляю направление движения
-        transform.position += direction * speed * Time.deltaTime; // изменяю позицию объекта на основе скорости и направления
+        Vector3 direction = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized; // calculate movement direction
+        transform.position += direction * speed * Time.deltaTime; // update position based on speed and direction
     }
 
     /// <summary>
-    /// Корректирует скорость игрока в зависимости от наклона поверхности.
+    /// adjusts the player's speed based on the slope angle.
     /// </summary>
-    /// <param name="forwardSlopeAngle">Угол наклона вперед.</param>
+    /// <param name="forwardSlopeAngle">the forward slope angle.</param>
     public void AdjustSpeedBySlope(float forwardSlopeAngle)
     {
-        if (forwardSlopeAngle < 0) // если наклон вперед
+        if (forwardSlopeAngle < 0) // if the slope is downhill
         {
-            speed += Mathf.Abs(forwardSlopeAngle) * acceleration * Time.deltaTime; // увеличиваю скорость на основе наклона
+            speed += Mathf.Abs(forwardSlopeAngle) * acceleration * Time.deltaTime; // increase speed based on the slope
         }
-        else if (Time.time - lastPushTime > 1f) // если прошло больше секунды после последнего толчка
+        else if (Time.time - lastPushTime > 1f) // if more than a second has passed since the last push
         {
-            speed = Mathf.Max(speed - noPushDeceleration * Time.deltaTime, 0); // уменьшаю скорость с учетом замедления
+            speed = Mathf.Max(speed - noPushDeceleration * Time.deltaTime, 0); // decrease speed considering deceleration
         }
 
-        speed = Mathf.Clamp(speed, 0, maxSpeed); // ограничиваю скорость в диапазоне от 0 до maxSpeed
+        speed = Mathf.Clamp(speed, 0, maxSpeed); // clamp speed between 0 and maxSpeed
     }
 }

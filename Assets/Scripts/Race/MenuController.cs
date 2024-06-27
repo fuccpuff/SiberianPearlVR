@@ -7,13 +7,13 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class MenuController : MonoBehaviour
 {
-    public GameObject leftControllerObject; // объект левого контроллера
-    public InputHelpers.Button menuButton = InputHelpers.Button.MenuButton; // кнопка меню
-    public string menuSceneName = "Menu"; // имя сцены с меню
-    public float activationThreshold = 0.1f; // порог активации кнопки
-    public float initializationDelay = 1.0f; // задержка перед инициализацией
+    public GameObject leftControllerObject; // left controller object
+    public InputHelpers.Button menuButton = InputHelpers.Button.MenuButton; // menu button
+    public string menuSceneName = "Menu"; // name of the menu scene
+    public float activationThreshold = 0.1f; // activation threshold for the button
+    public float initializationDelay = 1.0f; // delay before initialization
 
-    private InputDevice leftController; // устройство ввода для левого контроллера
+    private InputDevice leftController; // input device for the left controller
 
     void Start()
     {

@@ -3,42 +3,42 @@ using TMPro;
 using System.Collections;
 
 /// <summary>
-/// Обновляет UI со скоростью игрока.
+/// updates the ui with the player's speed.
 /// </summary>
 public class SpeedUIUpdater : MonoBehaviour
 {
-    private TMP_Text speedText; // текстовый объект для отображения скорости
+    private TMP_Text speedText; // text object for displaying speed
 
     void Start()
     {
-        StartCoroutine(FindSpeedTextObject()); // начинаю поиск текстового объекта
+        StartCoroutine(FindSpeedTextObject()); // start searching for the text object
     }
 
     /// <summary>
-    /// Ищет объект текста со скоростью.
+    /// searches for the speed text object.
     /// </summary>
     private IEnumerator FindSpeedTextObject()
     {
-        while (speedText == null) // пока текстовый объект не найден
+        while (speedText == null) // while the text object is not found
         {
-            GameObject obj = GameObject.FindWithTag("speedtext"); // ищу объект с тегом "speedtext"
+            GameObject obj = GameObject.FindWithTag("speedtext"); // search for the object with the tag "speedtext"
             if (obj != null)
             {
-                speedText = obj.GetComponent<TMP_Text>(); // получаю компонент TMP_Text
+                speedText = obj.GetComponent<TMP_Text>(); // get the TMP_Text component
             }
-            yield return new WaitForSeconds(0.5f); // жду полсекунды перед следующей попыткой
+            yield return new WaitForSeconds(0.5f); // wait half a second before the next attempt
         }
     }
 
     /// <summary>
-    /// Обновляет текст скорости.
+    /// updates the speed text.
     /// </summary>
-    /// <param name="speed">Текущая скорость игрока.</param>
+    /// <param name="speed">the current speed of the player.</param>
     public void UpdateSpeedText(float speed)
     {
-        if (speedText != null) // если текстовый объект найден
+        if (speedText != null) // if the text object is found
         {
-            speedText.text = $"Скорость: {speed.ToString("F2")} м/с"; // обновляю текст скорости
+            speedText.text = $"Скорость: {speed.ToString("F2")} m/s"; // update the speed text
         }
     }
 }

@@ -1,31 +1,31 @@
 using UnityEngine;
 
 /// <summary>
-/// ѕредотвращает проваливание игрока сквозь поверхность.
+/// prevents the player from clipping through the terrain.
 /// </summary>
 public class TerrainClipPrevention : MonoBehaviour
 {
     /// <summary>
-    /// ѕредотвращает проваливание игрока сквозь поверхность.
+    /// prevents the player from clipping through the terrain.
     /// </summary>
-    /// <param name="transform">“рансформ объекта игрока.</param>
+    /// <param name="transform">transform of the player object.</param>
     public void PreventTerrainClip(Transform transform)
     {
-        float checkDistance = 1.0f; // рассто€ние дл€ проверки вперед
-        Vector3 forwardDirection = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized; // направление проверки вперед
-        Vector3 forwardCheckPoint = transform.position + forwardDirection * checkDistance; // точка проверки впереди
+        float checkDistance = 1.0f; // distance for forward check
+        Vector3 forwardDirection = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized; // direction for forward check
+        Vector3 forwardCheckPoint = transform.position + forwardDirection * checkDistance; // point for forward check
 
-        float currentTerrainHeight = Terrain.activeTerrain.SampleHeight(transform.position) + Terrain.activeTerrain.transform.position.y; // текуща€ высота поверхности под игроком
-        float forwardTerrainHeight = Terrain.activeTerrain.SampleHeight(forwardCheckPoint) + Terrain.activeTerrain.transform.position.y; // высота поверхности впереди
-        float currentPlayerHeight = transform.position.y; // текуща€ высота игрока
+        float currentTerrainHeight = Terrain.activeTerrain.SampleHeight(transform.position) + Terrain.activeTerrain.transform.position.y; // current surface height under the player
+        float forwardTerrainHeight = Terrain.activeTerrain.SampleHeight(forwardCheckPoint) + Terrain.activeTerrain.transform.position.y; // surface height ahead of the player
+        float currentPlayerHeight = transform.position.y; // current height of the player
 
-        if (currentPlayerHeight > forwardTerrainHeight) // если игрок выше поверхности впереди
+        if (currentPlayerHeight > forwardTerrainHeight) // if the player is above the surface ahead
         {
-            transform.position = new Vector3(transform.position.x, forwardTerrainHeight, transform.position.z); // корректирую позицию игрока по высоте
+            transform.position = new Vector3(transform.position.x, forwardTerrainHeight, transform.position.z); // adjust the player's position to match the surface height ahead
         }
-        else if (currentPlayerHeight < currentTerrainHeight) // если игрок ниже текущей поверхности
+        else if (currentPlayerHeight < currentTerrainHeight) // if the player is below the current surface
         {
-            transform.position = new Vector3(transform.position.x, currentTerrainHeight, transform.position.z); // корректирую позицию игрока по высоте
+            transform.position = new Vector3(transform.position.x, currentTerrainHeight, transform.position.z); // adjust the player's position to match the current surface height
         }
     }
 }
