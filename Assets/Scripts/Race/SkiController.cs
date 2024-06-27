@@ -25,14 +25,14 @@ public class SkiController : MonoBehaviour
 
     void Update()
     {
-        bool isPushing = inputHandler.IsPushing();
-        Vector3 pushDirection = inputHandler.GetPushDirection();
-        float speed = characterController.velocity.magnitude;
+     //   bool isPushing = inputHandler.IsPushing();
+        //Vector3 pushDirection = inputHandler.GetPushDirection();
+        //float speed = characterController.velocity.magnitude;
 
-        Vector3 movement = movementCalculator.CalculateMovement(pushDirection, isPushing, pushPower, speed, transform);
-        characterController.Move(movement * Time.deltaTime);
+        //Vector3 movement = movementCalculator.CalculateMovement(pushDirection, isPushing, pushPower, speed, transform);
+        //characterController.Move(movement * Time.deltaTime);
 
-        audioManager.PlaySoundBasedOnSpeed(speed);
-        snowEffectManager.AdjustSnowEffectBasedOnSpeed(speed);
+        //audioManager.PlaySoundBasedOnSpeed(speed);
+        //snowEffectManager.AdjustSnowEffectBasedOnSpeed(speed);
     }
 }
