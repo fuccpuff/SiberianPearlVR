@@ -527,8 +527,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a2322f31c988c84cb5735f113332235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftController: {fileID: 1659877276}
-  rightController: {fileID: 1659877277}
+  leftControllerObject: {fileID: 1659877276}
+  rightControllerObject: {fileID: 1659877277}
 --- !u!1001 &1562178346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -755,6 +755,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7313654230448209575, guid: 895f6f3c2d334633b5800312285058d2,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1718652224}
+    - targetCorrespondingSourceObject: {fileID: 7313654230448209575, guid: 895f6f3c2d334633b5800312285058d2,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1718652222}
     - targetCorrespondingSourceObject: {fileID: 7696548424635294048, guid: 895f6f3c2d334633b5800312285058d2,
         type: 3}
@@ -898,6 +902,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windSound: {fileID: 1718652222}
+--- !u!114 &1718652224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659877274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 439d24e442d013945bb02336774da64e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftControllerObject: {fileID: 1659877276}
+  menuButton: 1
+  menuSceneName: Menu
+  activationThreshold: 0.1
+  initializationDelay: 5
 --- !u!1 &1866713190 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3619648725918478881, guid: 641157fbb735c874eb5b2d735b5a6e27,

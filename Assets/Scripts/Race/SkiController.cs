@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class SkiController : MonoBehaviour
 {
-    public GameObject leftController; // контроллер левой руки
-    public GameObject rightController; // контроллер правой руки
+    public GameObject leftControllerObject; // объект левого контроллера
+    public GameObject rightControllerObject; // объект правого контроллера
 
     private Vector3 lastLeftPosition; // последняя позиция левого контроллера
     private Vector3 lastRightPosition; // последняя позиция правого контроллера
@@ -13,29 +13,31 @@ public class SkiController : MonoBehaviour
     private TerrainClipPrevention terrainClipPrevention; // компонент для предотвращения проваливания через поверхность
     private SpeedUIUpdater speedUIUpdater; // компонент для обновления UI скорости
     private SkiSoundManager skiSoundManager; // компонент для управления звуком ветра
+    private MenuController menuController; // компонент для управления меню
 
     void Start()
     {
-        lastLeftPosition = leftController.transform.position; // сохраняю начальную позицию левого контроллера
-        lastRightPosition = rightController.transform.position; // сохраняю начальную позицию правого контроллера
+        lastLeftPosition = leftControllerObject.transform.position; // сохраняю начальную позицию левого контроллера
+        lastRightPosition = rightControllerObject.transform.position; // сохраняю начальную позицию правого контроллера
 
         speedController = GetComponent<SpeedController>(); // получаю компонент SpeedController
         slopeAdjuster = GetComponent<SlopeAdjuster>(); // получаю компонент SlopeAdjuster
         terrainClipPrevention = GetComponent<TerrainClipPrevention>(); // получаю компонент TerrainClipPrevention
         speedUIUpdater = GetComponent<SpeedUIUpdater>(); // получаю компонент SpeedUIUpdater
         skiSoundManager = GetComponent<SkiSoundManager>(); // получаю компонент SkiSoundManager
+        menuController = GetComponent<MenuController>(); // получаю компонент MenuController
     }
 
     void Update()
     {
-        Vector3 leftDelta = leftController.transform.position - lastLeftPosition; // вычисляю изменение позиции левого контроллера
-        Vector3 rightDelta = rightController.transform.position - lastRightPosition; // вычисляю изменение позиции правого контроллера
+        Vector3 leftDelta = leftControllerObject.transform.position - lastLeftPosition; // вычисляю изменение позиции левого контроллера
+        Vector3 rightDelta = rightControllerObject.transform.position - lastRightPosition; // вычисляю изменение позиции правого контроллера
 
         float leftDirection = Vector3.Dot(leftDelta.normalized, -Camera.main.transform.forward); // направление движения левого контроллера
         float rightDirection = Vector3.Dot(rightDelta.normalized, -Camera.main.transform.forward); // направление движения правого контроллера
 
-        lastLeftPosition = leftController.transform.position; // обновляю последнюю позицию левого контроллера
-        lastRightPosition = rightController.transform.position; // обновляю последнюю позицию правого контроллера
+        lastLeftPosition = leftControllerObject.transform.position; // обновляю последнюю позицию левого контроллера
+        lastRightPosition = rightControllerObject.transform.position; // обновляю последнюю позицию правого контроллера
 
         bool isPushing = leftDirection > 0 && rightDirection > 0; // определяю, толкается ли игрок
         float pushPower = CalculatePushPower(leftDelta, rightDelta, isPushing); // рассчитываю мощность толчка
@@ -47,6 +49,7 @@ public class SkiController : MonoBehaviour
         terrainClipPrevention.PreventTerrainClip(transform); // предотвращаю проваливание через поверхность
         speedUIUpdater.UpdateSpeedText(speedController.Speed); // обновляю UI скорости
         skiSoundManager.Update(); // обновляю звук ветра
+        menuController.Update(); // обновляю управление меню
     }
 
     /// <summary>
